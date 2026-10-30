@@ -1,4 +1,4 @@
-import { Institution, Student } from '../types';
+import { Institution, Student, ComplianceAlert } from '../types';
 
 export const INITIAL_INSTITUTIONS: Institution[] = [
   {
@@ -24,7 +24,7 @@ export const INITIAL_INSTITUTIONS: Institution[] = [
     state: 'Maharashtra',
     city: 'Pune',
     type: 'Autonomous',
-    totalApprovedIntake: 120, // Exactly as in the prompt example
+    totalApprovedIntake: 120, // Exactly as in prompt example: Approved Intake 120, Actual 129, Excess 9, 107.5%
     courses: [
       { courseName: 'Computer Engineering', code: 'CE', approvedIntake: 60 },
       { courseName: 'Mechanical Engineering', code: 'ME', approvedIntake: 60 },
@@ -75,9 +75,7 @@ export const INITIAL_INSTITUTIONS: Institution[] = [
 ];
 
 export const INITIAL_STUDENTS: Student[] = [
-  // COEP Pune (inst-2) - deliberately has 129 admissions vs 120 approved intake!
-  // To keep seed compact while representing 129 actual enrolments, we store individual detailed records
-  // and include excess markers
+  // COEP Pune (inst-2) - 120 approved intake vs 129 actual admissions (+9 excess admissions, 107.5% utilization)
   {
     id: 'std-coep-001',
     apaarId: '8491 2049 1102',
@@ -92,6 +90,7 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionDate: '2024-07-28',
     admissionCategory: 'Regular',
     status: 'VERIFIED',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-07-28T10:15:00Z',
     dob: '2006-04-12',
     bloodGroup: 'O+',
@@ -110,6 +109,7 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionDate: '2024-07-29',
     admissionCategory: 'Regular',
     status: 'VERIFIED',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-07-29T11:20:00Z',
     dob: '2005-11-23',
     bloodGroup: 'B+',
@@ -128,6 +128,7 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionDate: '2024-08-01',
     admissionCategory: 'Regular',
     status: 'VERIFIED',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-08-01T09:40:00Z',
     dob: '2006-01-19',
     bloodGroup: 'A+',
@@ -145,10 +146,11 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionDate: '2024-08-05',
     admissionCategory: 'Supernumerary',
     status: 'VERIFIED',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-08-05T14:10:00Z',
     dob: '2006-05-30',
   },
-  // EXCESS ADMISSION CASE (inst-2)
+  // EXCESS ADMISSION RECORDS (COEP Pune - seats 61 & 62 exceeding approved 60 intake cap)
   {
     id: 'std-coep-excess-01',
     apaarId: '4910 2938 4710',
@@ -163,6 +165,7 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionCategory: 'Regular',
     status: 'EXCESS_ADMISSION',
     flagReason: 'Intake Cap Exceeded: Admission admitted beyond AICTE Approved Intake of 60 for CE.',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-08-18T16:30:00Z',
     dob: '2005-09-14',
     bloodGroup: 'AB+',
@@ -181,11 +184,14 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionCategory: 'Regular',
     status: 'EXCESS_ADMISSION',
     flagReason: 'Intake Cap Exceeded: Admission admitted beyond AICTE Approved Intake of 60 for CE.',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-08-19T10:00:00Z',
     dob: '2006-03-08',
   },
 
-  // DUPLICATE RECORD 1: Arjun Sharma enrolled in DTU AND in BIT Mesra (Cross-institutional duplicate!)
+  // -------------------------------------------------------------
+  // GRAPH SCENARIO 1: DUPLICATE ENROLMENT (Same APAAR in 2 colleges overlapping)
+  // -------------------------------------------------------------
   {
     id: 'std-dtu-001',
     apaarId: '7341 9023 8812', // Matching duplicate APAAR ID
@@ -200,7 +206,8 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionDate: '2024-08-02',
     admissionCategory: 'Regular',
     status: 'FLAGGED_DUPLICATE',
-    flagReason: 'Dual Institution Enrolment: APAAR ID 7341 9023 8812 is also registered at Birla Institute of Technology (BIT Mesra).',
+    flagReason: 'Dual Institution Enrolment: APAAR ID 7341 9023 8812 is also actively registered at Birla Institute of Technology (BIT Mesra).',
+    enrolmentNature: 'Overlapping Duplicate',
     registeredAt: '2024-08-02T11:00:00Z',
     dob: '2005-08-21',
     bloodGroup: 'O+',
@@ -219,13 +226,124 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionDate: '2024-08-08',
     admissionCategory: 'Regular',
     status: 'FLAGGED_DUPLICATE',
-    flagReason: 'Dual Institution Enrolment: APAAR ID 7341 9023 8812 is also registered at Delhi Technological University (DTU).',
+    flagReason: 'Dual Institution Enrolment: APAAR ID 7341 9023 8812 is also actively registered at Delhi Technological University (DTU).',
+    enrolmentNature: 'Overlapping Duplicate',
     registeredAt: '2024-08-08T15:20:00Z',
     dob: '2005-08-21',
     bloodGroup: 'O+',
   },
 
-  // DTU Students (Verified)
+  // -------------------------------------------------------------
+  // GRAPH SCENARIO 2: LEGITIMATE TRANSFER (Student transferred with verified NOC)
+  // -------------------------------------------------------------
+  {
+    id: 'std-coep-transfer',
+    apaarId: '5920 4819 3302',
+    registrationNo: '2023-COEP-CE-034',
+    name: 'Ananya Deshpande',
+    email: 'ananya.d@coep.ac.in',
+    phone: '+91 98204 77192',
+    institutionId: 'inst-2',
+    institutionName: 'College of Engineering Pune (COEP Tech)',
+    course: 'Computer Engineering',
+    academicYear: '2023-2024',
+    admissionDate: '2023-08-10',
+    admissionCategory: 'Regular',
+    status: 'TRANSFERRED',
+    flagReason: 'Transferred out: Student migrated to DTU New Delhi for Academic Year 2024-2025 with AICTE approved NOC.',
+    enrolmentNature: 'Legitimate Transfer',
+    transferDetails: {
+      fromInstitution: 'College of Engineering Pune (COEP Tech)',
+      toInstitution: 'Delhi Technological University (DTU)',
+      transferDate: '2024-07-15',
+      migrationCertNo: 'AICTE/MIG/2024/7721',
+      nocStatus: 'Verified NOC',
+      remarks: 'Official inter-state credit transfer through Academic Bank of Credits (ABC).',
+    },
+    registeredAt: '2023-08-10T09:00:00Z',
+    dob: '2005-03-18',
+    bloodGroup: 'B+',
+  },
+  {
+    id: 'std-dtu-transfer',
+    apaarId: '5920 4819 3302', // Same APAAR ID but legitimate transfer
+    registrationNo: '2024-DTU-CSE-T04',
+    name: 'Ananya Deshpande',
+    email: 'ananya.deshpande@dtu.ac.in',
+    phone: '+91 98204 77192',
+    institutionId: 'inst-1',
+    institutionName: 'Delhi Technological University (DTU)',
+    course: 'Computer Science & Engineering',
+    academicYear: '2024-2025',
+    admissionDate: '2024-07-26',
+    admissionCategory: 'Regular',
+    status: 'VERIFIED',
+    flagReason: 'Legitimate Migration: Transferred in from COEP Pune with verified AICTE NOC Certificate.',
+    enrolmentNature: 'Legitimate Transfer',
+    transferDetails: {
+      fromInstitution: 'College of Engineering Pune (COEP Tech)',
+      toInstitution: 'Delhi Technological University (DTU)',
+      transferDate: '2024-07-15',
+      migrationCertNo: 'AICTE/MIG/2024/7721',
+      nocStatus: 'Verified NOC',
+      remarks: 'Official inter-state credit transfer through Academic Bank of Credits (ABC).',
+    },
+    registeredAt: '2024-07-26T14:30:00Z',
+    dob: '2005-03-18',
+    bloodGroup: 'B+',
+  },
+
+  // -------------------------------------------------------------
+  // GRAPH SCENARIO 3: UNUSUAL RECORD PATTERN (Conflicting course level / category)
+  // -------------------------------------------------------------
+  {
+    id: 'std-rvce-unusual',
+    apaarId: '2019 4820 1938',
+    registrationNo: '2024-RVCE-AE-004',
+    name: 'Vikramaditya Rao',
+    email: 'vrao@rvce.edu.in',
+    phone: '+91 97410 99881',
+    institutionId: 'inst-5',
+    institutionName: 'RV College of Engineering (RVCE)',
+    course: 'Aerospace Engineering',
+    academicYear: '2024-2025',
+    admissionDate: '2024-07-31',
+    admissionCategory: 'OCI',
+    status: 'REQUIRES_MANUAL_REVIEW',
+    flagReason: 'Unusual Record Pattern: Secondary registration detected under conflicting quota with contradictory academic records.',
+    enrolmentNature: 'Unusual Record Pattern',
+    transferDetails: {
+      fromInstitution: 'RV College of Engineering (RVCE)',
+      toInstitution: 'Delhi Technological University (DTU)',
+      nocStatus: 'No NOC Found',
+      remarks: 'Conflicting simultaneous application with contradictory quota classification.',
+    },
+    registeredAt: '2024-07-31T14:40:00Z',
+    dob: '2005-05-12',
+    bloodGroup: 'A+',
+  },
+  {
+    id: 'std-dtu-unusual',
+    apaarId: '2019 4820 1938', // Same APAAR ID with unusual pattern
+    registrationNo: '2024-DTU-ECE-U88',
+    name: 'Vikramaditya Rao',
+    email: 'v.rao.temp@dtu.ac.in',
+    phone: '+91 97410 99881',
+    institutionId: 'inst-1',
+    institutionName: 'Delhi Technological University (DTU)',
+    course: 'Electronics & Communication Engineering',
+    academicYear: '2024-2025',
+    admissionDate: '2024-08-04',
+    admissionCategory: 'Regular', // Contradictory to OCI at RVCE!
+    status: 'REQUIRES_MANUAL_REVIEW',
+    flagReason: 'Unusual Record Pattern: Quota conflict (OCI at RVCE vs Regular at DTU) without formal migration document.',
+    enrolmentNature: 'Unusual Record Pattern',
+    registeredAt: '2024-08-04T16:00:00Z',
+    dob: '2005-05-12',
+    bloodGroup: 'A+',
+  },
+
+  // DTU Students (Verified Standard)
   {
     id: 'std-dtu-002',
     apaarId: '9842 1209 4431',
@@ -240,6 +358,7 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionDate: '2024-07-25',
     admissionCategory: 'Regular',
     status: 'VERIFIED',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-07-25T09:30:00Z',
     dob: '2006-02-14',
     bloodGroup: 'B+',
@@ -257,6 +376,7 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionDate: '2024-07-30',
     admissionCategory: 'Regular',
     status: 'VERIFIED',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-07-30T10:45:00Z',
     dob: '2005-12-05',
     bloodGroup: 'O-',
@@ -274,6 +394,7 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionDate: '2024-08-03',
     admissionCategory: 'NRI',
     status: 'VERIFIED',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-08-03T14:15:00Z',
     dob: '2006-07-10',
     bloodGroup: 'A-',
@@ -294,6 +415,7 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionDate: '2024-07-20',
     admissionCategory: 'Regular',
     status: 'VERIFIED',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-07-20T08:50:00Z',
     dob: '2006-03-25',
     bloodGroup: 'O+',
@@ -311,6 +433,7 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionDate: '2024-07-22',
     admissionCategory: 'Supernumerary',
     status: 'VERIFIED',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-07-22T12:30:00Z',
     dob: '2005-10-18',
     bloodGroup: 'B+',
@@ -328,6 +451,7 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionDate: '2024-08-04',
     admissionCategory: 'Foreign National',
     status: 'VERIFIED',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-08-04T15:00:00Z',
     dob: '2004-11-09',
     bloodGroup: 'A+',
@@ -347,6 +471,7 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionDate: '2024-08-01',
     admissionCategory: 'Regular',
     status: 'VERIFIED',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-08-01T11:10:00Z',
     dob: '2005-06-15',
     bloodGroup: 'AB+',
@@ -367,26 +492,10 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionDate: '2024-07-27',
     admissionCategory: 'Regular',
     status: 'VERIFIED',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-07-27T10:00:00Z',
     dob: '2006-08-03',
     bloodGroup: 'O+',
-  },
-  {
-    id: 'std-rvce-002',
-    apaarId: '2019 4820 1938',
-    registrationNo: '2024-RVCE-AE-004',
-    name: 'Vikramaditya Rao',
-    email: 'vrao@rvce.edu.in',
-    institutionId: 'inst-5',
-    institutionName: 'RV College of Engineering (RVCE)',
-    course: 'Aerospace Engineering',
-    academicYear: '2024-2025',
-    admissionDate: '2024-07-31',
-    admissionCategory: 'OCI',
-    status: 'VERIFIED',
-    registeredAt: '2024-07-31T14:40:00Z',
-    dob: '2005-05-12',
-    bloodGroup: 'A+',
   },
   {
     id: 'std-rvce-003',
@@ -402,17 +511,57 @@ export const INITIAL_STUDENTS: Student[] = [
     admissionCategory: 'Regular',
     status: 'PENDING',
     flagReason: 'Pending Document Verification: Awaiting final secondary marksheet verification.',
+    enrolmentNature: 'Regular',
     registeredAt: '2024-08-10T16:20:00Z',
     dob: '2006-09-17',
     bloodGroup: 'B-',
   },
 ];
 
-// College intake simulated totals (so that COEP reflects 129 admitted vs 120 approved intake exactly matching the user's example!)
+// College intake simulated totals (so that COEP reflects 129 admitted vs 120 approved intake exactly matching prompt example: Approved 120, Actual 129, Excess 9, 107.5%)
 export const INSTITUTION_SIMULATED_TOTALS: Record<string, { totalAdmitted: number; notes?: string }> = {
   'inst-1': { totalAdmitted: 218 }, // Under intake (218 / 240)
-  'inst-2': { totalAdmitted: 129, notes: 'EXCESS INTAKE: 9 admissions over 120 approved capacity' }, // Prompt's exact example: 120 approved, 129 actual, 9 excess
+  'inst-2': { totalAdmitted: 129, notes: 'EXCESS INTAKE: 9 admissions over 120 approved capacity (107.5% utilization)' }, // Prompt's exact example
   'inst-3': { totalAdmitted: 176 }, // Under intake (176 / 180)
   'inst-4': { totalAdmitted: 148 }, // Under intake (148 / 150)
   'inst-5': { totalAdmitted: 139 }, // Under intake (139 / 140)
 };
+
+export const INITIAL_COMPLIANCE_ALERTS: ComplianceAlert[] = [
+  {
+    id: 'alt-01',
+    title: 'Excess Intake Cap Breach Detected',
+    description: 'College of Engineering Pune (COEP) has admitted 129 students against approved capacity of 120 (107.5% utilization, +9 excess admissions).',
+    severity: 'critical',
+    timestamp: '10 mins ago',
+    targetView: 'monitoring',
+    institutionName: 'College of Engineering Pune (COEP Tech)',
+  },
+  {
+    id: 'alt-02',
+    title: 'Concurrent Cross-Institution Duplicate Enrolment',
+    description: 'APAAR ID 7341 9023 8812 (Arjun Sharma) actively enrolled in both DTU and BIT Mesra during AY 2024-2025.',
+    severity: 'critical',
+    timestamp: '25 mins ago',
+    targetView: 'graph',
+    institutionName: 'DTU & BIT Mesra',
+  },
+  {
+    id: 'alt-03',
+    title: 'Unusual Record Pattern Flagged for Review',
+    description: 'APAAR ID 2019 4820 1938 (Vikramaditya Rao) shows conflicting quota entries between RVCE and DTU.',
+    severity: 'warning',
+    timestamp: '1 hour ago',
+    targetView: 'graph',
+    institutionName: 'RVCE & DTU',
+  },
+  {
+    id: 'alt-04',
+    title: 'Inter-College Migration Approved & Reconciled',
+    description: 'Ananya Deshpande migration from COEP Pune to DTU New Delhi certified with AICTE NOC 2024/7721.',
+    severity: 'info',
+    timestamp: '3 hours ago',
+    targetView: 'graph',
+    institutionName: 'COEP to DTU',
+  },
+];

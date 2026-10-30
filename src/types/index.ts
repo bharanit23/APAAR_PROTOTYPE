@@ -10,7 +10,9 @@ export type VerificationStatus =
   | 'PENDING'
   | 'FLAGGED_DUPLICATE'
   | 'EXCESS_ADMISSION'
-  | 'INVALID_FORMAT';
+  | 'INVALID_FORMAT'
+  | 'TRANSFERRED'
+  | 'REQUIRES_MANUAL_REVIEW';
 
 export interface CourseIntake {
   courseName: string;
@@ -48,6 +50,16 @@ export interface Student {
   registeredAt: string;
   dob?: string;
   bloodGroup?: string;
+  // Novel Graph & Academic History Attributes
+  enrolmentNature?: 'Regular' | 'Overlapping Duplicate' | 'Legitimate Transfer' | 'Unusual Record Pattern';
+  transferDetails?: {
+    fromInstitution?: string;
+    toInstitution?: string;
+    transferDate?: string;
+    migrationCertNo?: string;
+    nocStatus?: 'Verified NOC' | 'Pending NOC' | 'No NOC Found';
+    remarks?: string;
+  };
 }
 
 export type UserRole =
@@ -77,4 +89,47 @@ export interface DuplicateCluster {
   records: Student[];
   isCrossInstitution: boolean;
   institutions: string[];
+}
+
+// Novel Cross-Institution Student Identity Graph Types
+export type GraphNodeType = 'student' | 'institution' | 'course';
+
+export interface GraphNode {
+  id: string;
+  label: string;
+  sublabel?: string;
+  type: GraphNodeType;
+  x: number;
+  y: number;
+  data: any;
+  status?: string;
+  flagged?: boolean;
+}
+
+export interface GraphEdge {
+  id: string;
+  source: string;
+  target: string;
+  type: 'enrolled' | 'duplicate_overlap' | 'legitimate_transfer' | 'unusual_pattern';
+  label?: string;
+  details?: string;
+  isWarning?: boolean;
+}
+
+// Intake Configurator
+export interface IntakeConfig {
+  includeSupernumerary: boolean;
+  includeNri: boolean;
+  includeForeign: boolean;
+}
+
+// Compliance Alerts
+export interface ComplianceAlert {
+  id: string;
+  title: string;
+  description: string;
+  severity: 'critical' | 'warning' | 'info';
+  timestamp: string;
+  targetView: string;
+  institutionName?: string;
 }

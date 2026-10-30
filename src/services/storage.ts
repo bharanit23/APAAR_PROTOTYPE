@@ -1,9 +1,17 @@
-import { Student, Institution, DuplicateCluster } from '../types';
-import { INITIAL_INSTITUTIONS, INITIAL_STUDENTS, INSTITUTION_SIMULATED_TOTALS } from '../data/mockData';
+import { Student, Institution, DuplicateCluster, IntakeConfig, ComplianceAlert } from '../types';
+import { INITIAL_INSTITUTIONS, INITIAL_STUDENTS, INSTITUTION_SIMULATED_TOTALS, INITIAL_COMPLIANCE_ALERTS } from '../data/mockData';
 import { cleanApaarId } from './validation';
 
-const STORAGE_KEY_STUDENTS = 'apaar_nexus_students_v1';
-const STORAGE_KEY_INSTITUTIONS = 'apaar_nexus_institutions_v1';
+const STORAGE_KEY_STUDENTS = 'apaar_nexus_students_v2';
+const STORAGE_KEY_INSTITUTIONS = 'apaar_nexus_institutions_v2';
+const STORAGE_KEY_ALERTS = 'apaar_nexus_alerts_v2';
+const STORAGE_KEY_CONFIG = 'apaar_nexus_config_v2';
+
+export const DEFAULT_INTAKE_CONFIG: IntakeConfig = {
+  includeSupernumerary: true,
+  includeNri: true,
+  includeForeign: true,
+};
 
 export function loadStoredStudents(): Student[] {
   try {
@@ -45,12 +53,61 @@ export function saveStoredInstitutions(institutions: Institution[]): void {
   }
 }
 
-export function resetAllDataToDefault(): { students: Student[]; institutions: Institution[] } {
+export function loadStoredAlerts(): ComplianceAlert[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_ALERTS);
+    if (raw) {
+      return JSON.parse(raw);
+    }
+  } catch (err) {
+    console.error('Failed to load alerts from localStorage:', err);
+  }
+  return [...INITIAL_COMPLIANCE_ALERTS];
+}
+
+export function saveStoredAlerts(alerts: ComplianceAlert[]): void {
+  try {
+    localStorage.setItem(STORAGE_KEY_ALERTS, JSON.stringify(alerts));
+  } catch (err) {
+    console.error('Failed to save alerts to localStorage:', err);
+  }
+}
+
+export function loadStoredIntakeConfig(): IntakeConfig {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY_CONFIG);
+    if (raw) {
+      return JSON.parse(raw);
+    }
+  } catch (err) {
+    console.error('Failed to load intake config:', err);
+  }
+  return { ...DEFAULT_INTAKE_CONFIG };
+}
+
+export function saveStoredIntakeConfig(config: IntakeConfig): void {
+  try {
+    localStorage.setItem(STORAGE_KEY_CONFIG, JSON.stringify(config));
+  } catch (err) {
+    console.error('Failed to save intake config:', err);
+  }
+}
+
+export function resetAllDataToDefault(): {
+  students: Student[];
+  institutions: Institution[];
+  alerts: ComplianceAlert[];
+  config: IntakeConfig;
+} {
   localStorage.removeItem(STORAGE_KEY_STUDENTS);
   localStorage.removeItem(STORAGE_KEY_INSTITUTIONS);
+  localStorage.removeItem(STORAGE_KEY_ALERTS);
+  localStorage.removeItem(STORAGE_KEY_CONFIG);
   return {
     students: [...INITIAL_STUDENTS],
     institutions: [...INITIAL_INSTITUTIONS],
+    alerts: [...INITIAL_COMPLIANCE_ALERTS],
+    config: { ...DEFAULT_INTAKE_CONFIG },
   };
 }
 
@@ -61,30 +118,53 @@ export interface InstitutionIntakeStats {
   remainingSeats: number;
   excessAdmissions: number;
   isExcess: boolean;
-  utilizationRate: number;
+  utilizationRate: number; // e.g. 107.5
   detailedStudentsCount: number;
+  regularCount: number;
+  supernumeraryCount: number;
+  nriCount: number;
+  foreignCount: number;
 }
 
 export function calculateInstitutionIntake(
   inst: Institution,
-  allStudents: Student[]
+  allStudents: Student[],
+  config: IntakeConfig = DEFAULT_INTAKE_CONFIG
 ): InstitutionIntakeStats {
   const matchingStudents = allStudents.filter((s) => s.institutionId === inst.id);
   const countInDb = matchingStudents.length;
 
-  // For realism and exact matching to prompt example:
-  // inst-2 (COEP) is configured with approved 120 and actual enrolment 129 (excess: 9).
-  // Any dynamically added students for inst-2 increment this total!
+  const regularCount = matchingStudents.filter((s) => s.admissionCategory === 'Regular').length;
+  const supernumeraryCount = matchingStudents.filter((s) => s.admissionCategory === 'Supernumerary').length;
+  const nriCount = matchingStudents.filter((s) => s.admissionCategory === 'NRI').length;
+  const foreignCount = matchingStudents.filter(
+    (s) => s.admissionCategory === 'Foreign National' || s.admissionCategory === 'OCI'
+  ).length;
+
+  // Base simulation for prompt exact match (COEP = 129 admitted vs 120 approved = 107.5%)
   const baseSimulated = INSTITUTION_SIMULATED_TOTALS[inst.id]?.totalAdmitted;
   const initialBaseInDb = INITIAL_STUDENTS.filter((s) => s.institutionId === inst.id).length;
   const delta = Math.max(0, countInDb - initialBaseInDb);
 
-  const actualEnrolment = (baseSimulated !== undefined ? baseSimulated : countInDb) + delta;
+  let actualEnrolment = (baseSimulated !== undefined ? baseSimulated : countInDb) + delta;
+
+  // Adjust if special categories are excluded from intake calculation per configuration
+  if (!config.includeSupernumerary && supernumeraryCount > 0) {
+    actualEnrolment = Math.max(0, actualEnrolment - supernumeraryCount);
+  }
+  if (!config.includeNri && nriCount > 0) {
+    actualEnrolment = Math.max(0, actualEnrolment - nriCount);
+  }
+  if (!config.includeForeign && foreignCount > 0) {
+    actualEnrolment = Math.max(0, actualEnrolment - foreignCount);
+  }
+
   const approvedIntake = inst.totalApprovedIntake;
   const excessAdmissions = Math.max(0, actualEnrolment - approvedIntake);
   const remainingSeats = Math.max(0, approvedIntake - actualEnrolment);
   const isExcess = excessAdmissions > 0;
-  const utilizationRate = Math.round((actualEnrolment / approvedIntake) * 100);
+  // Precise calculation to 1 decimal place (129 / 120 = 1.075 * 100 = 107.5%)
+  const utilizationRate = Number(((actualEnrolment / (approvedIntake || 1)) * 100).toFixed(1));
 
   return {
     institution: inst,
@@ -95,6 +175,10 @@ export function calculateInstitutionIntake(
     isExcess,
     utilizationRate,
     detailedStudentsCount: countInDb,
+    regularCount,
+    supernumeraryCount,
+    nriCount,
+    foreignCount,
   };
 }
 
