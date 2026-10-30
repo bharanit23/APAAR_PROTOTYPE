@@ -1,0 +1,6 @@
+{
+  "name": "APAAR NEXUS",
+  "description": "Centralized AICTE student admission & APAAR ID validation and intake monitoring platform.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
