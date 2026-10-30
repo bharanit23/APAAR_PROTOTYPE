@@ -128,23 +128,23 @@ export const WorkflowView: React.FC<WorkflowViewProps> = ({ onNavigateToStage })
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Header */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-2xs">
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs transition-colors">
         <div className="flex items-center gap-2 mb-1">
-          <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200 uppercase tracking-wide">
-            SIH 2026 Core Architecture
+          <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-900/50 uppercase tracking-wide">
+            National Technical Architecture
           </span>
-          <span className="text-slate-400 text-xs">• End-to-End Operational Lifecycle</span>
+          <span className="text-slate-400 dark:text-slate-500 text-xs">• End-to-End Operational Lifecycle</span>
         </div>
-        <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+        <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
           How APAAR NEXUS Works — Six-Stage Workflow
         </h1>
-        <p className="text-xs text-slate-500 mt-1 max-w-2xl leading-relaxed">
+        <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-2xl leading-relaxed">
           The centralized pipeline connecting participating colleges, the automated validation engine, national AICTE repository, and authorized public verifiers.
         </p>
       </div>
 
       {/* Connected 6-Stage Visual Stepper */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-2xs">
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs transition-colors">
         <div className="grid grid-cols-2 md:grid-cols-6 gap-3 relative">
           {STAGES.map((stage, idx) => {
             const isActive = activeStageIndex === idx;
@@ -156,8 +156,8 @@ export const WorkflowView: React.FC<WorkflowViewProps> = ({ onNavigateToStage })
                 onClick={() => setActiveStageIndex(idx)}
                 className={`flex flex-col items-center text-center p-3.5 rounded-xl border transition-all text-left relative cursor-pointer group ${
                   isActive
-                    ? 'border-blue-600 bg-blue-50/60 shadow-sm ring-2 ring-blue-500/20'
-                    : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+                    ? 'border-blue-600 dark:border-blue-500 bg-blue-50/60 dark:bg-blue-950/50 shadow-sm ring-2 ring-blue-500/20'
+                    : 'border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-800/60'
                 }`}
               >
                 {/* Stage Number Badge */}
@@ -165,7 +165,7 @@ export const WorkflowView: React.FC<WorkflowViewProps> = ({ onNavigateToStage })
                   className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-full mb-2 ${
                     isActive
                       ? 'bg-blue-600 text-white'
-                      : 'bg-slate-100 text-slate-500 group-hover:bg-slate-200'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 group-hover:bg-slate-200 dark:group-hover:bg-slate-700'
                   }`}
                 >
                   Stage {stage.number}
@@ -176,14 +176,14 @@ export const WorkflowView: React.FC<WorkflowViewProps> = ({ onNavigateToStage })
                   className={`w-10 h-10 rounded-xl flex items-center justify-center mb-2.5 transition-transform group-hover:scale-105 ${
                     isActive
                       ? 'bg-blue-600 text-white shadow-xs'
-                      : 'bg-slate-100 text-slate-700'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300'
                   }`}
                 >
                   <Icon className="w-5 h-5" />
                 </div>
 
                 {/* Title */}
-                <div className="text-xs font-bold text-slate-900 line-clamp-2 leading-tight">
+                <div className="text-xs font-bold text-slate-900 dark:text-slate-100 line-clamp-2 leading-tight">
                   {stage.title}
                 </div>
               </button>
@@ -193,7 +193,7 @@ export const WorkflowView: React.FC<WorkflowViewProps> = ({ onNavigateToStage })
       </div>
 
       {/* Selected Stage Deep-Dive Card */}
-      <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden animate-in fade-in duration-200">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs overflow-hidden animate-in fade-in duration-200 transition-colors">
         {/* Banner */}
         <div className="bg-slate-900 text-white p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div className="flex items-center gap-4">
@@ -227,44 +227,44 @@ export const WorkflowView: React.FC<WorkflowViewProps> = ({ onNavigateToStage })
           {/* Left: Process & Actor (7 cols) */}
           <div className="md:col-span-7 space-y-4">
             <div>
-              <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">
+              <span className="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500 tracking-wider">
                 Primary Operational Actor
               </span>
-              <div className="text-sm font-bold text-slate-900 mt-0.5">
+              <div className="text-sm font-bold text-slate-900 dark:text-slate-100 mt-0.5">
                 {currentStage.details.actor}
               </div>
             </div>
 
             <div>
-              <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">
+              <span className="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500 tracking-wider">
                 Execution Workflow
               </span>
-              <p className="text-xs text-slate-700 leading-relaxed mt-1">
+              <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed mt-1">
                 {currentStage.details.process}
               </p>
             </div>
 
             <div className="pt-2">
-              <span className="text-[10px] font-bold uppercase text-slate-400 tracking-wider">
+              <span className="text-[10px] font-bold uppercase text-slate-400 dark:text-slate-500 tracking-wider">
                 System Output / Verification Outcome
               </span>
-              <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-800 mt-1 flex items-start gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+              <div className="p-3 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-xs font-semibold text-emerald-800 dark:text-emerald-300 mt-1 flex items-start gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
                 <span>{currentStage.details.outcome}</span>
               </div>
             </div>
           </div>
 
           {/* Right: Data Schema & Inputs (5 cols) */}
-          <div className="md:col-span-5 bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
-            <span className="text-[10px] font-bold uppercase text-slate-500 tracking-wider block">
+          <div className="md:col-span-5 bg-slate-50 dark:bg-slate-800/60 p-4 rounded-xl border border-slate-200 dark:border-slate-700/80 space-y-3">
+            <span className="text-[10px] font-bold uppercase text-slate-500 dark:text-slate-400 tracking-wider block">
               Required Data Parameters
             </span>
             <div className="space-y-1.5">
               {currentStage.details.inputs.map((inp, idx) => (
                 <div
                   key={idx}
-                  className="px-3 py-1.5 bg-white rounded-lg border border-slate-200/80 text-xs font-medium text-slate-800 flex items-center gap-2"
+                  className="px-3 py-1.5 bg-white dark:bg-slate-900 rounded-lg border border-slate-200/80 dark:border-slate-700 text-xs font-medium text-slate-800 dark:text-slate-200 flex items-center gap-2"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
                   {inp}
@@ -272,12 +272,12 @@ export const WorkflowView: React.FC<WorkflowViewProps> = ({ onNavigateToStage })
               ))}
             </div>
 
-            <div className="pt-3 border-t border-slate-200/80">
+            <div className="pt-3 border-t border-slate-200/80 dark:border-slate-700">
               <button
                 onClick={() => onNavigateToStage(currentStage.targetView)}
                 className="w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
               >
-                <span>Launch Prototype Interaction</span>
+                <span>Launch Interactive Module</span>
                 <ChevronRight className="w-3.5 h-3.5" />
               </button>
             </div>

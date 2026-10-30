@@ -80,18 +80,18 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
   return (
     <div className="space-y-6">
       {/* Top Banner / Hero Title */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white p-6 rounded-2xl border border-slate-200/90 shadow-2xs">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs transition-colors">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-50 text-blue-700 border border-blue-200 uppercase tracking-wide">
+            <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-900/50 uppercase tracking-wide">
               National Apex Overview
             </span>
-            <span className="text-slate-400 text-xs">• AICTE Academic Registry System</span>
+            <span className="text-slate-400 dark:text-slate-500 text-xs">• AICTE Academic Registry System</span>
           </div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
             Centralized AICTE Intake & APAAR Registry
           </h1>
-          <p className="text-sm text-slate-500 mt-1 max-w-2xl leading-relaxed">
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-2xl leading-relaxed">
             Real-time monitoring of student admissions across approved technical institutions using One Nation, One Student ID (APAAR) verification.
           </p>
         </div>
@@ -99,16 +99,16 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
         <div className="flex items-center gap-2.5 shrink-0">
           <button
             onClick={() => onNavigateToModule('graph')}
-            className="px-3.5 py-2 rounded-xl text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border border-purple-200 flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-950/40 hover:bg-purple-100 dark:hover:bg-purple-900/50 border border-purple-200 dark:border-purple-800/80 flex items-center gap-1.5 transition-colors cursor-pointer"
           >
-            <GitGraph className="w-4 h-4 text-purple-600" />
+            <GitGraph className="w-4 h-4 text-purple-600 dark:text-purple-400" />
             Identity Graph
           </button>
           <button
             onClick={onViewReports}
-            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 border border-slate-200 flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
+            className="px-3.5 py-2 rounded-xl text-xs font-bold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 flex items-center gap-1.5 transition-colors shadow-2xs cursor-pointer"
           >
-            <BarChart3 className="w-4 h-4 text-slate-600" />
+            <BarChart3 className="w-4 h-4 text-slate-600 dark:text-slate-400" />
             Export Reports
           </button>
         </div>
@@ -119,29 +119,29 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Excess Admission Alert */}
           {institutionsExceeding.length > 0 && (
-            <div className="bg-amber-50/90 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-amber-500/10 text-amber-700 flex items-center justify-center shrink-0 mt-0.5">
-                <AlertTriangle className="w-5 h-5 text-amber-600" />
+            <div className="bg-amber-50/90 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/60 rounded-xl p-4 flex items-start gap-3">
+              <div className="w-9 h-9 rounded-lg bg-amber-500/10 dark:bg-amber-500/20 text-amber-700 dark:text-amber-400 flex items-center justify-center shrink-0 mt-0.5">
+                <AlertTriangle className="w-5 h-5 text-amber-600 dark:text-amber-400" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-bold text-amber-900 uppercase tracking-wider">
-                    Intake Violation Detected ({institutionsExceeding.length} Institution)
+                  <h3 className="text-xs font-bold text-amber-900 dark:text-amber-200 uppercase tracking-wider">
+                    Intake Capacity Alert ({institutionsExceeding.length} Institution)
                   </h3>
-                  <span className="text-[10px] font-semibold bg-amber-200/60 text-amber-900 px-2 py-0.5 rounded">
+                  <span className="text-[10px] font-semibold bg-amber-200/60 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 px-2 py-0.5 rounded">
                     Action Required
                   </span>
                 </div>
-                <p className="text-xs text-amber-800 mt-1 leading-relaxed">
+                <p className="text-xs text-amber-800 dark:text-amber-300 mt-1 leading-relaxed">
                   <strong className="font-semibold">{institutionsExceeding[0].institution.name}</strong> has enrolled{' '}
-                  <span className="font-mono font-bold text-amber-900">{institutionsExceeding[0].actualEnrolment}</span>{' '}
+                  <span className="font-mono font-bold text-amber-900 dark:text-amber-200">{institutionsExceeding[0].actualEnrolment}</span>{' '}
                   students against approved intake of{' '}
-                  <span className="font-mono font-bold text-amber-900">{institutionsExceeding[0].approvedIntake}</span>{' '}
+                  <span className="font-mono font-bold text-amber-900 dark:text-amber-200">{institutionsExceeding[0].approvedIntake}</span>{' '}
                   (<strong>+{institutionsExceeding[0].excessAdmissions} excess</strong>, 107.5% utilization).
                 </p>
                 <button
                   onClick={() => onNavigateToModule('monitoring')}
-                  className="mt-2 text-xs font-semibold text-amber-900 hover:text-amber-950 underline flex items-center gap-1 cursor-pointer"
+                  className="mt-2 text-xs font-semibold text-amber-900 dark:text-amber-200 hover:text-amber-950 dark:hover:text-amber-100 underline flex items-center gap-1 cursor-pointer"
                 >
                   Open Admission Monitoring <ChevronRight className="w-3.5 h-3.5" />
                 </button>
@@ -151,26 +151,26 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
 
           {/* Cross-Institution Duplicate Alert */}
           {duplicateClusters.length > 0 && (
-            <div className="bg-rose-50/90 border border-rose-200 rounded-xl p-4 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-rose-500/10 text-rose-700 flex items-center justify-center shrink-0 mt-0.5">
-                <ShieldAlert className="w-5 h-5 text-rose-600" />
+            <div className="bg-rose-50/90 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60 rounded-xl p-4 flex items-start gap-3">
+              <div className="w-9 h-9 rounded-lg bg-rose-500/10 dark:bg-rose-500/20 text-rose-700 dark:text-rose-400 flex items-center justify-center shrink-0 mt-0.5">
+                <ShieldAlert className="w-5 h-5 text-rose-600 dark:text-rose-400" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center justify-between">
-                  <h3 className="text-xs font-bold text-rose-900 uppercase tracking-wider">
+                  <h3 className="text-xs font-bold text-rose-900 dark:text-rose-200 uppercase tracking-wider">
                     Potential Duplicate Records ({duplicateClusters.length} Found)
                   </h3>
-                  <span className="text-[10px] font-semibold bg-rose-200/60 text-rose-900 px-2 py-0.5 rounded">
+                  <span className="text-[10px] font-semibold bg-rose-200/60 dark:bg-rose-900/60 text-rose-900 dark:text-rose-200 px-2 py-0.5 rounded">
                     High Priority
                   </span>
                 </div>
-                <p className="text-xs text-rose-800 mt-1 leading-relaxed">
+                <p className="text-xs text-rose-800 dark:text-rose-300 mt-1 leading-relaxed">
                   APAAR ID <span className="font-mono font-bold">{duplicateClusters[0].apaarId}</span> ({duplicateClusters[0].studentName}) is simultaneously enrolled in{' '}
                   <strong>{duplicateClusters[0].institutions.join(' & ')}</strong>.
                 </p>
                 <button
                   onClick={() => onNavigateToModule('graph')}
-                  className="mt-2 text-xs font-semibold text-rose-900 hover:text-rose-950 underline flex items-center gap-1 cursor-pointer"
+                  className="mt-2 text-xs font-semibold text-rose-900 dark:text-rose-200 hover:text-rose-950 dark:hover:text-rose-100 underline flex items-center gap-1 cursor-pointer"
                 >
                   Visualize on Identity Graph <ChevronRight className="w-3.5 h-3.5" />
                 </button>
@@ -182,76 +182,76 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
 
       {/* KPI Cards Grid */}
       <div className="grid grid-cols-2 lg:grid-cols-6 gap-3.5">
-        <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-2xs">
+          <div className="flex items-center justify-between text-slate-400 dark:text-slate-500 mb-2">
             <span className="text-xs font-medium">Institutions</span>
-            <Building2 className="w-4 h-4 text-blue-600" />
+            <Building2 className="w-4 h-4 text-blue-600 dark:text-blue-400" />
           </div>
-          <div className="text-2xl font-bold text-slate-900 tracking-tight">
+          <div className="text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
             {totalInstitutions}
           </div>
-          <div className="text-[11px] text-slate-500 mt-1">AICTE Approved</div>
+          <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">AICTE Approved</div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-2xs">
+          <div className="flex items-center justify-between text-slate-400 dark:text-slate-500 mb-2">
             <span className="text-xs font-medium">Student Records</span>
-            <Users className="w-4 h-4 text-indigo-600" />
+            <Users className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
           </div>
-          <div className="text-2xl font-bold text-slate-900 tracking-tight">
+          <div className="text-2xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
             {totalActualEnrolment}
           </div>
-          <div className="text-[11px] text-slate-500 mt-1">
+          <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
             {students.length} detailed in portal
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-2xs">
+          <div className="flex items-center justify-between text-slate-400 dark:text-slate-500 mb-2">
             <span className="text-xs font-medium">Verified APAAR</span>
-            <ShieldCheck className="w-4 h-4 text-emerald-600" />
+            <ShieldCheck className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
           </div>
-          <div className="text-2xl font-bold text-emerald-600 tracking-tight">
+          <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 tracking-tight">
             {verifiedCount}
           </div>
-          <div className="text-[11px] text-emerald-700 mt-1 font-medium">
+          <div className="text-[11px] text-emerald-700 dark:text-emerald-400 mt-1 font-medium">
             100% Registry Match
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-2xs">
+          <div className="flex items-center justify-between text-slate-400 dark:text-slate-500 mb-2">
             <span className="text-xs font-medium">Pending Records</span>
-            <Clock className="w-4 h-4 text-slate-500" />
+            <Clock className="w-4 h-4 text-slate-500 dark:text-slate-400" />
           </div>
-          <div className="text-2xl font-bold text-slate-700 tracking-tight">
+          <div className="text-2xl font-bold text-slate-700 dark:text-slate-300 tracking-tight">
             {pendingCount}
           </div>
-          <div className="text-[11px] text-slate-500 mt-1">Awaiting docs</div>
+          <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-1">Awaiting verification</div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-2xs">
+          <div className="flex items-center justify-between text-slate-400 dark:text-slate-500 mb-2">
             <span className="text-xs font-medium">Exceeding Intake</span>
-            <AlertTriangle className="w-4 h-4 text-amber-500" />
+            <AlertTriangle className="w-4 h-4 text-amber-500 dark:text-amber-400" />
           </div>
-          <div className={`text-2xl font-bold tracking-tight ${institutionsExceeding.length > 0 ? 'text-amber-600' : 'text-slate-900'}`}>
+          <div className={`text-2xl font-bold tracking-tight ${institutionsExceeding.length > 0 ? 'text-amber-600 dark:text-amber-400' : 'text-slate-900 dark:text-slate-100'}`}>
             {institutionsExceeding.length}
           </div>
-          <div className="text-[11px] text-amber-700 mt-1 font-medium">
+          <div className="text-[11px] text-amber-700 dark:text-amber-400 mt-1 font-medium">
             {institutionsExceeding.length > 0 ? '+9 Excess seats' : 'Fully compliant'}
           </div>
         </div>
 
-        <div className="bg-white p-4 rounded-xl border border-slate-200/90 shadow-2xs">
-          <div className="flex items-center justify-between text-slate-400 mb-2">
+        <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200/90 dark:border-slate-800 shadow-2xs">
+          <div className="flex items-center justify-between text-slate-400 dark:text-slate-500 mb-2">
             <span className="text-xs font-medium">Duplicate Alerts</span>
-            <ShieldAlert className="w-4 h-4 text-rose-500" />
+            <ShieldAlert className="w-4 h-4 text-rose-500 dark:text-rose-400" />
           </div>
-          <div className={`text-2xl font-bold tracking-tight ${duplicateClusters.length > 0 ? 'text-rose-600' : 'text-slate-900'}`}>
+          <div className={`text-2xl font-bold tracking-tight ${duplicateClusters.length > 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-900 dark:text-slate-100'}`}>
             {duplicateClusters.length}
           </div>
-          <div className="text-[11px] text-rose-600 mt-1 font-medium">
+          <div className="text-[11px] text-rose-600 dark:text-rose-400 mt-1 font-medium">
             {duplicateClusters.length > 0 ? 'Cross-inst duplicate' : 'Zero duplicates'}
           </div>
         </div>
@@ -261,72 +261,72 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <button
           onClick={() => onNavigateToModule('graph')}
-          className="p-3.5 rounded-xl border border-purple-200 bg-purple-50/50 hover:bg-purple-50 transition-all text-left flex items-center justify-between group cursor-pointer"
+          className="p-3.5 rounded-xl border border-purple-200 dark:border-purple-900/50 bg-purple-50/50 dark:bg-purple-950/20 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-all text-left flex items-center justify-between group cursor-pointer"
         >
           <div>
-            <span className="text-[10px] font-bold uppercase text-purple-700 tracking-wider">Novel Feature</span>
-            <div className="text-xs font-bold text-slate-900 mt-0.5">Identity Graph</div>
+            <span className="text-[10px] font-bold uppercase text-purple-700 dark:text-purple-300 tracking-wider">Relational Intelligence</span>
+            <div className="text-xs font-bold text-slate-900 dark:text-slate-100 mt-0.5">Identity Graph</div>
           </div>
-          <GitGraph className="w-5 h-5 text-purple-600 group-hover:scale-110 transition-transform" />
+          <GitGraph className="w-5 h-5 text-purple-600 dark:text-purple-400 group-hover:scale-110 transition-transform" />
         </button>
 
         <button
           onClick={() => onNavigateToModule('monitoring')}
-          className="p-3.5 rounded-xl border border-amber-200 bg-amber-50/50 hover:bg-amber-50 transition-all text-left flex items-center justify-between group cursor-pointer"
+          className="p-3.5 rounded-xl border border-amber-200 dark:border-amber-900/50 bg-amber-50/50 dark:bg-amber-950/20 hover:bg-amber-50 dark:hover:bg-amber-900/30 transition-all text-left flex items-center justify-between group cursor-pointer"
         >
           <div>
-            <span className="text-[10px] font-bold uppercase text-amber-700 tracking-wider">Capacity Audit</span>
-            <div className="text-xs font-bold text-slate-900 mt-0.5">Admission Monitoring</div>
+            <span className="text-[10px] font-bold uppercase text-amber-700 dark:text-amber-300 tracking-wider">Capacity Audit</span>
+            <div className="text-xs font-bold text-slate-900 dark:text-slate-100 mt-0.5">Admission Monitoring</div>
           </div>
-          <BarChart3 className="w-5 h-5 text-amber-600 group-hover:scale-110 transition-transform" />
+          <BarChart3 className="w-5 h-5 text-amber-600 dark:text-amber-400 group-hover:scale-110 transition-transform" />
         </button>
 
         <button
           onClick={() => onNavigateToModule('validation')}
-          className="p-3.5 rounded-xl border border-indigo-200 bg-indigo-50/50 hover:bg-indigo-50 transition-all text-left flex items-center justify-between group cursor-pointer"
+          className="p-3.5 rounded-xl border border-indigo-200 dark:border-indigo-900/50 bg-indigo-50/50 dark:bg-indigo-950/20 hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-all text-left flex items-center justify-between group cursor-pointer"
         >
           <div>
-            <span className="text-[10px] font-bold uppercase text-indigo-700 tracking-wider">Intelligent Protocol</span>
-            <div className="text-xs font-bold text-slate-900 mt-0.5">APAAR Validation</div>
+            <span className="text-[10px] font-bold uppercase text-indigo-700 dark:text-indigo-300 tracking-wider">Validation Engine</span>
+            <div className="text-xs font-bold text-slate-900 dark:text-slate-100 mt-0.5">APAAR Validation</div>
           </div>
-          <ShieldCheck className="w-5 h-5 text-indigo-600 group-hover:scale-110 transition-transform" />
+          <ShieldCheck className="w-5 h-5 text-indigo-600 dark:text-indigo-400 group-hover:scale-110 transition-transform" />
         </button>
 
         <button
           onClick={() => onNavigateToModule('workflow')}
-          className="p-3.5 rounded-xl border border-blue-200 bg-blue-50/50 hover:bg-blue-50 transition-all text-left flex items-center justify-between group cursor-pointer"
+          className="p-3.5 rounded-xl border border-blue-200 dark:border-blue-900/50 bg-blue-50/50 dark:bg-blue-950/20 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-all text-left flex items-center justify-between group cursor-pointer"
         >
           <div>
-            <span className="text-[10px] font-bold uppercase text-blue-700 tracking-wider">SIH Process</span>
-            <div className="text-xs font-bold text-slate-900 mt-0.5">Six-Stage Workflow</div>
+            <span className="text-[10px] font-bold uppercase text-blue-700 dark:text-blue-300 tracking-wider">System Flow</span>
+            <div className="text-xs font-bold text-slate-900 dark:text-slate-100 mt-0.5">Six-Stage Lifecycle</div>
           </div>
-          <Layers className="w-5 h-5 text-blue-600 group-hover:scale-110 transition-transform" />
+          <Layers className="w-5 h-5 text-blue-600 dark:text-blue-400 group-hover:scale-110 transition-transform" />
         </button>
       </div>
 
       {/* Visual Analytics Section: Institution-wise and Year-wise Enrolment */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Institution-wise Enrolment Bar Chart: 8 cols */}
-        <div className="lg:col-span-8 bg-white p-6 rounded-2xl border border-slate-200/90 shadow-2xs">
+        <div className="lg:col-span-8 bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs transition-colors">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-6">
             <div>
-              <h2 className="text-sm font-bold text-slate-900 tracking-tight">
+              <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight">
                 Institution-wise Approved vs Actual Enrolment
               </h2>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 Capacity utilization comparison across AICTE monitored institutions
               </p>
             </div>
             <div className="flex items-center gap-4 text-xs">
-              <span className="flex items-center gap-1.5 text-slate-600">
-                <span className="w-2.5 h-2.5 rounded-xs bg-slate-300 inline-block" />
+              <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
+                <span className="w-2.5 h-2.5 rounded-xs bg-slate-300 dark:bg-slate-700 inline-block" />
                 Approved Intake
               </span>
-              <span className="flex items-center gap-1.5 text-slate-600">
+              <span className="flex items-center gap-1.5 text-slate-600 dark:text-slate-400">
                 <span className="w-2.5 h-2.5 rounded-xs bg-blue-600 inline-block" />
                 Enrolled (Healthy)
               </span>
-              <span className="flex items-center gap-1.5 text-amber-700">
+              <span className="flex items-center gap-1.5 text-amber-700 dark:text-amber-400">
                 <span className="w-2.5 h-2.5 rounded-xs bg-amber-500 inline-block" />
                 Excess Intake
               </span>
@@ -343,25 +343,25 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
               return (
                 <div key={stat.institution.id} className="space-y-1.5">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-slate-800 flex items-center gap-1.5 truncate max-w-[240px] sm:max-w-md">
+                    <span className="font-semibold text-slate-800 dark:text-slate-200 flex items-center gap-1.5 truncate max-w-[240px] sm:max-w-md">
                       {stat.institution.name}
                       {stat.isExcess && (
-                        <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-100 text-amber-800">
+                        <span className="px-1.5 py-0.2 rounded text-[10px] font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-900/40">
                           +{stat.excessAdmissions} EXCESS ({stat.utilizationRate}%)
                         </span>
                       )}
                     </span>
-                    <span className="font-mono text-slate-600 shrink-0">
-                      <strong className={stat.isExcess ? 'text-amber-700' : 'text-slate-900'}>
+                    <span className="font-mono text-slate-600 dark:text-slate-400 shrink-0">
+                      <strong className={stat.isExcess ? 'text-amber-700 dark:text-amber-400' : 'text-slate-900 dark:text-slate-100'}>
                         {stat.actualEnrolment}
                       </strong>
-                      <span className="text-slate-400"> / {stat.approvedIntake} ({stat.utilizationRate}%)</span>
+                      <span className="text-slate-400 dark:text-slate-500"> / {stat.approvedIntake} ({stat.utilizationRate}%)</span>
                     </span>
                   </div>
 
-                  <div className="h-5 w-full bg-slate-100 rounded-md overflow-hidden relative flex items-center">
+                  <div className="h-5 w-full bg-slate-100 dark:bg-slate-800 rounded-md overflow-hidden relative flex items-center">
                     <div
-                      className="absolute top-0 bottom-0 border-r-2 border-slate-400 z-10"
+                      className="absolute top-0 bottom-0 border-r-2 border-slate-400 dark:border-slate-500 z-10"
                       style={{ left: `${approvedWidth}%` }}
                       title={`Approved Cap: ${stat.approvedIntake}`}
                     />
@@ -381,7 +381,7 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
             })}
           </div>
 
-          <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
+          <div className="mt-5 pt-4 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-[11px] text-slate-400 dark:text-slate-500">
             <span>Vertical line marks the sanctioned AICTE intake threshold.</span>
             <span>Academic Year 2024–2025</span>
           </div>
@@ -389,11 +389,11 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
 
         {/* Year-wise and Category Distribution: 4 cols */}
         <div className="lg:col-span-4 space-y-6">
-          <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-2xs">
-            <h2 className="text-sm font-bold text-slate-900 tracking-tight mb-1">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs transition-colors">
+            <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight mb-1">
               Year-wise Student Enrolment
             </h2>
-            <p className="text-xs text-slate-500 mb-4">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
               Historical multi-year enrolment progression
             </p>
 
@@ -406,16 +406,16 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
               ].map((item) => (
                 <div key={item.year} className="space-y-1">
                   <div className="flex items-center justify-between text-xs">
-                    <span className={`font-semibold ${item.active ? 'text-blue-600' : 'text-slate-700'}`}>
+                    <span className={`font-semibold ${item.active ? 'text-blue-600 dark:text-blue-400' : 'text-slate-700 dark:text-slate-300'}`}>
                       {item.year} {item.active && '(Current)'}
                     </span>
-                    <span className="font-mono text-slate-600 font-medium">
+                    <span className="font-mono text-slate-600 dark:text-slate-400 font-medium">
                       {item.count} students
                     </span>
                   </div>
-                  <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
+                  <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                     <div
-                      className={`h-full rounded-full ${item.active ? 'bg-blue-600' : 'bg-slate-300'}`}
+                      className={`h-full rounded-full ${item.active ? 'bg-blue-600 dark:bg-blue-500' : 'bg-slate-300 dark:bg-slate-700'}`}
                       style={{ width: `${item.pct}%` }}
                     />
                   </div>
@@ -424,11 +424,11 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
             </div>
           </div>
 
-          <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-2xs">
-            <h2 className="text-sm font-bold text-slate-900 tracking-tight mb-1">
+          <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs transition-colors">
+            <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight mb-1">
               Admission Category Breakdown
             </h2>
-            <p className="text-xs text-slate-500 mb-4">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
               Distribution of verified student quotas
             </p>
 
@@ -439,12 +439,12 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
                 { label: 'NRI Quota', share: '5%', color: 'bg-sky-500' },
                 { label: 'OCI / Foreign National', share: '5%', color: 'bg-amber-500' },
               ].map((cat) => (
-                <div key={cat.label} className="flex items-center justify-between py-1 border-b border-slate-100 last:border-0">
-                  <span className="flex items-center gap-2 text-slate-700">
+                <div key={cat.label} className="flex items-center justify-between py-1 border-b border-slate-100 dark:border-slate-800 last:border-0">
+                  <span className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
                     <span className={`w-2 h-2 rounded-full ${cat.color}`} />
                     {cat.label}
                   </span>
-                  <span className="font-mono font-bold text-slate-800">{cat.share}</span>
+                  <span className="font-mono font-bold text-slate-800 dark:text-slate-200">{cat.share}</span>
                 </div>
               ))}
             </div>
@@ -452,18 +452,18 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
         </div>
       </div>
 
-      {/* Recent Admission Activity Stream (Prompt Requirement A) */}
-      <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-5">
-        <div className="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
+      {/* Recent Admission Activity Stream */}
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs p-5 transition-colors">
+        <div className="flex items-center justify-between pb-3 border-b border-slate-100 dark:border-slate-800 mb-3">
           <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-blue-600" />
-            <h2 className="text-sm font-bold text-slate-900">
+            <Clock className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+            <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100">
               Recent Admission Activity
             </h2>
           </div>
           <button
             onClick={() => onNavigateToModule('students')}
-            className="text-xs text-blue-600 hover:text-blue-800 font-semibold cursor-pointer"
+            className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-semibold cursor-pointer"
           >
             View All Records →
           </button>
@@ -473,24 +473,24 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
           {students.slice(0, 3).map((st) => (
             <div
               key={st.id}
-              className="p-3 rounded-xl border border-slate-200 bg-slate-50/60 text-xs space-y-1.5"
+              className="p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/60 dark:bg-slate-800/40 text-xs space-y-1.5"
             >
               <div className="flex items-center justify-between">
-                <span className="font-bold text-slate-900 line-clamp-1">{st.name}</span>
+                <span className="font-bold text-slate-900 dark:text-slate-100 line-clamp-1">{st.name}</span>
                 <span
                   className={`text-[9px] font-bold px-1.5 py-0.2 rounded ${
                     st.status === 'VERIFIED'
-                      ? 'bg-emerald-100 text-emerald-800'
+                      ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300'
                       : st.status === 'FLAGGED_DUPLICATE'
-                      ? 'bg-rose-100 text-rose-800'
-                      : 'bg-amber-100 text-amber-800'
+                      ? 'bg-rose-100 dark:bg-rose-950/60 text-rose-800 dark:text-rose-300'
+                      : 'bg-amber-100 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300'
                   }`}
                 >
                   {st.status.replace('_', ' ')}
                 </span>
               </div>
-              <div className="text-[11px] text-slate-600 line-clamp-1">{st.institutionName}</div>
-              <div className="flex items-center justify-between text-[10px] text-slate-400 pt-1 border-t border-slate-200/60">
+              <div className="text-[11px] text-slate-600 dark:text-slate-400 line-clamp-1">{st.institutionName}</div>
+              <div className="flex items-center justify-between text-[10px] text-slate-400 dark:text-slate-500 pt-1 border-t border-slate-200/60 dark:border-slate-700/60">
                 <span className="font-mono">{st.apaarId}</span>
                 <span>{st.admissionDate}</span>
               </div>
@@ -500,13 +500,13 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
       </div>
 
       {/* Institutions Directory Table */}
-      <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
-        <div className="p-5 border-b border-slate-100 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+      <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs overflow-hidden transition-colors">
+        <div className="p-5 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h2 className="text-sm font-bold text-slate-900 tracking-tight">
+            <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 tracking-tight">
               AICTE Approved Institutions Registry
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
               Select an institution to inspect departmental enrolments and student records
             </p>
           </div>
@@ -519,14 +519,14 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search college, code, state..."
-                className="pl-8 pr-3 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg text-slate-800 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 w-48 sm:w-60"
+                className="pl-8 pr-3 py-1.5 text-xs bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-800 dark:text-slate-200 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-hidden focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 w-48 sm:w-60"
               />
             </div>
 
             <select
               value={filterState}
               onChange={(e) => setFilterState(e.target.value)}
-              className="text-xs px-2.5 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 focus:outline-hidden"
+              className="text-xs px-2.5 py-1.5 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-hidden"
             >
               <option value="all">All Statuses</option>
               <option value="excess">Excess Intake Only</option>
@@ -535,9 +535,15 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
           </div>
         </div>
 
+        {/* Mobile scroll hint */}
+        <div className="sm:hidden px-4 py-1.5 text-[10px] text-slate-400 dark:text-slate-500 bg-slate-50 dark:bg-slate-800/40 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+          <span>Scroll horizontally for full college metrics</span>
+          <span>→</span>
+        </div>
+
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs">
-            <thead className="bg-slate-50/80 text-slate-500 font-semibold border-b border-slate-100">
+          <table className="w-full text-left text-xs min-w-[680px]">
+            <thead className="bg-slate-50/80 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 font-semibold border-b border-slate-100 dark:border-slate-800">
               <tr>
                 <th className="py-3 px-4">AICTE Institution</th>
                 <th className="py-3 px-4">PID Code</th>
@@ -549,52 +555,52 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
                 <th className="py-3 px-4 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {filteredInstitutions.map((stat) => (
                 <tr
                   key={stat.institution.id}
-                  className="hover:bg-slate-50/70 transition-colors group"
+                  className="hover:bg-slate-50/70 dark:hover:bg-slate-800/50 transition-colors group"
                 >
                   <td className="py-3.5 px-4">
-                    <div className="font-semibold text-slate-900">
+                    <div className="font-semibold text-slate-900 dark:text-slate-100">
                       {stat.institution.name}
                     </div>
-                    <div className="text-[11px] text-slate-400">
+                    <div className="text-[11px] text-slate-400 dark:text-slate-500">
                       Type: {stat.institution.type} • {stat.institution.courses.length} Approved Programs
                     </div>
                   </td>
-                  <td className="py-3.5 px-4 font-mono text-slate-600">
+                  <td className="py-3.5 px-4 font-mono text-slate-600 dark:text-slate-400">
                     {stat.institution.code}
                   </td>
-                  <td className="py-3.5 px-4 text-slate-600">
+                  <td className="py-3.5 px-4 text-slate-600 dark:text-slate-400">
                     {stat.institution.city}, {stat.institution.state}
                   </td>
-                  <td className="py-3.5 px-4 text-right font-mono font-medium text-slate-800">
+                  <td className="py-3.5 px-4 text-right font-mono font-medium text-slate-800 dark:text-slate-200">
                     {stat.approvedIntake}
                   </td>
-                  <td className="py-3.5 px-4 text-right font-mono font-bold text-slate-900">
+                  <td className="py-3.5 px-4 text-right font-mono font-bold text-slate-900 dark:text-slate-100">
                     {stat.actualEnrolment}
                   </td>
                   <td className="py-3.5 px-4 text-right font-mono">
                     {stat.isExcess ? (
-                      <span className="text-amber-700 font-bold">
+                      <span className="text-amber-700 dark:text-amber-400 font-bold">
                         +{stat.excessAdmissions} Excess
                       </span>
                     ) : (
-                      <span className="text-emerald-700 font-semibold">
+                      <span className="text-emerald-700 dark:text-emerald-400 font-semibold">
                         {stat.remainingSeats} Seats Left
                       </span>
                     )}
                   </td>
                   <td className="py-3.5 px-4 text-center">
                     {stat.isExcess ? (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-800 border border-amber-200">
-                        <AlertTriangle className="w-3 h-3 text-amber-600" />
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-amber-50 dark:bg-amber-950/60 text-amber-800 dark:text-amber-300 border border-amber-200 dark:border-amber-900/40">
+                        <AlertTriangle className="w-3 h-3 text-amber-600 dark:text-amber-400" />
                         Cap Exceeded
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
-                        <CheckCircle className="w-3 h-3 text-emerald-600" />
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900/40">
+                        <CheckCircle className="w-3 h-3 text-emerald-600 dark:text-emerald-400" />
                         Compliant
                       </span>
                     )}
@@ -602,7 +608,7 @@ export const AicteDashboard: React.FC<AicteDashboardProps> = ({
                   <td className="py-3.5 px-4 text-right">
                     <button
                       onClick={() => onSelectInstitution(stat.institution.id)}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold text-blue-600 hover:text-blue-800 hover:bg-blue-50 transition-colors cursor-pointer"
+                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-colors cursor-pointer"
                     >
                       View College <ChevronRight className="w-3.5 h-3.5" />
                     </button>

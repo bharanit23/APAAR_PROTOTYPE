@@ -109,18 +109,18 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
   return (
     <div className="max-w-5xl mx-auto space-y-6">
       {/* Header */}
-      <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-2xs flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs flex flex-col md:flex-row md:items-center md:justify-between gap-4 transition-colors">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+            <span className="px-2 py-0.5 rounded text-[11px] font-semibold bg-blue-50 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300 border border-blue-200 dark:border-blue-900/50">
               National Reporting Suite
             </span>
-            <span className="text-slate-400 text-xs">• AICTE Audit & Compliance</span>
+            <span className="text-slate-400 dark:text-slate-500 text-xs">• AICTE Audit & Compliance</span>
           </div>
-          <h1 className="text-xl font-bold text-slate-900 tracking-tight">
+          <h1 className="text-xl font-bold text-slate-900 dark:text-slate-100 tracking-tight">
             Comprehensive Enrolment & Compliance Reports
           </h1>
-          <p className="text-xs text-slate-500 mt-1 max-w-2xl">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 max-w-2xl">
             Download institutional intake summaries, cross-institution duplicate audit trails, and program-wise seat distributions.
           </p>
         </div>
@@ -135,7 +135,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+      <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
         {[
           { id: 'all', label: 'All Report Modules' },
           { id: 'institutions', label: 'Institution-wise Enrolment' },
@@ -148,7 +148,7 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
             className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-colors cursor-pointer ${
               activeTab === tab.id
                 ? 'bg-blue-600 text-white shadow-2xs'
-                : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800'
             }`}
           >
             {tab.label}
@@ -158,19 +158,19 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
 
       {/* Section 1: Institution-wise Enrolment */}
       {(activeTab === 'all' || activeTab === 'institutions') && (
-        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
-          <div className="p-4 border-b border-slate-100 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <Building2 className="w-4 h-4 text-blue-600" />
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs overflow-hidden transition-colors">
+          <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+            <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+              <Building2 className="w-4 h-4 text-blue-600 dark:text-blue-400" />
               1. Institution-wise Intake vs Enrolment Report
             </h2>
-            <span className="text-xs text-slate-400">
+            <span className="text-xs text-slate-400 dark:text-slate-500">
               {institutionStats.length} Institutions
             </span>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50/80 text-slate-500 font-semibold border-b border-slate-100">
+            <table className="w-full text-left text-xs min-w-[580px]">
+              <thead className="bg-slate-50/80 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 font-semibold border-b border-slate-100 dark:border-slate-800">
                 <tr>
                   <th className="py-2.5 px-4">Institution Name</th>
                   <th className="py-2.5 px-4">State</th>
@@ -181,38 +181,38 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
                   <th className="py-2.5 px-4 text-center">Audit Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {institutionStats.map((stat) => (
-                  <tr key={stat.institution.id} className="hover:bg-slate-50/60">
-                    <td className="py-2.5 px-4 font-semibold text-slate-800">
+                  <tr key={stat.institution.id} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40">
+                    <td className="py-2.5 px-4 font-semibold text-slate-800 dark:text-slate-200">
                       {stat.institution.name}
                     </td>
-                    <td className="py-2.5 px-4 text-slate-600">{stat.institution.state}</td>
-                    <td className="py-2.5 px-4 text-right font-mono text-slate-700">
+                    <td className="py-2.5 px-4 text-slate-600 dark:text-slate-400">{stat.institution.state}</td>
+                    <td className="py-2.5 px-4 text-right font-mono text-slate-700 dark:text-slate-300">
                       {stat.approvedIntake}
                     </td>
-                    <td className="py-2.5 px-4 text-right font-mono font-bold text-slate-900">
+                    <td className="py-2.5 px-4 text-right font-mono font-bold text-slate-900 dark:text-slate-100">
                       {stat.actualEnrolment}
                     </td>
-                    <td className="py-2.5 px-4 text-right font-mono text-emerald-700">
+                    <td className="py-2.5 px-4 text-right font-mono text-emerald-700 dark:text-emerald-400">
                       {stat.remainingSeats}
                     </td>
                     <td className="py-2.5 px-4 text-right font-mono">
                       {stat.excessAdmissions > 0 ? (
-                        <span className="text-amber-700 font-bold">
+                        <span className="text-amber-700 dark:text-amber-400 font-bold">
                           +{stat.excessAdmissions}
                         </span>
                       ) : (
-                        <span className="text-slate-400">0</span>
+                        <span className="text-slate-400 dark:text-slate-500">0</span>
                       )}
                     </td>
                     <td className="py-2.5 px-4 text-center">
                       {stat.isExcess ? (
-                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-900">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-100 dark:bg-amber-950/60 text-amber-900 dark:text-amber-300 border border-amber-200 dark:border-amber-900/40">
                           EXCESS BREACH
                         </span>
                       ) : (
-                        <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 text-emerald-800">
+                        <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-900/40">
                           APPROVED
                         </span>
                       )}
@@ -227,19 +227,19 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
 
       {/* Section 2: Course-wise student distribution */}
       {(activeTab === 'all' || activeTab === 'courses') && (
-        <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
-          <div className="p-4 border-b border-slate-100 flex items-center justify-between">
-            <h2 className="text-sm font-bold text-slate-900 flex items-center gap-2">
-              <BarChart2 className="w-4 h-4 text-indigo-600" />
+        <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs overflow-hidden transition-colors">
+          <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+            <h2 className="text-sm font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
+              <BarChart2 className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
               2. Course-wise Student Distribution
             </h2>
-            <span className="text-xs text-slate-400">
+            <span className="text-xs text-slate-400 dark:text-slate-500">
               Aggregated across branches
             </span>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-slate-50/80 text-slate-500 font-semibold border-b border-slate-100">
+            <table className="w-full text-left text-xs min-w-[500px]">
+              <thead className="bg-slate-50/80 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 font-semibold border-b border-slate-100 dark:border-slate-800">
                 <tr>
                   <th className="py-2.5 px-4">Program / Discipline</th>
                   <th className="py-2.5 px-4 text-right">Total Sanctioned Seats</th>
@@ -247,21 +247,21 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
                   <th className="py-2.5 px-4 text-right">Fill Rate</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
                 {courseList.map((c) => {
                   const fillRate = Math.round((c.enrolled / (c.approved || 1)) * 100);
                   return (
-                    <tr key={c.courseName} className="hover:bg-slate-50/60">
-                      <td className="py-2.5 px-4 font-semibold text-slate-800">
+                    <tr key={c.courseName} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40">
+                      <td className="py-2.5 px-4 font-semibold text-slate-800 dark:text-slate-200">
                         {c.courseName}
                       </td>
-                      <td className="py-2.5 px-4 text-right font-mono text-slate-600">
+                      <td className="py-2.5 px-4 text-right font-mono text-slate-600 dark:text-slate-400">
                         {c.approved}
                       </td>
-                      <td className="py-2.5 px-4 text-right font-mono font-bold text-slate-900">
+                      <td className="py-2.5 px-4 text-right font-mono font-bold text-slate-900 dark:text-slate-100">
                         {c.enrolled}
                       </td>
-                      <td className="py-2.5 px-4 text-right font-mono text-blue-600 font-semibold">
+                      <td className="py-2.5 px-4 text-right font-mono text-blue-600 dark:text-blue-400 font-semibold">
                         {fillRate}%
                       </td>
                     </tr>
@@ -277,13 +277,13 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
       {(activeTab === 'all' || activeTab === 'irregularities') && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Duplicate Records Table */}
-          <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
-            <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-rose-50/50">
-              <h2 className="text-sm font-bold text-rose-950 flex items-center gap-2">
-                <ShieldAlert className="w-4 h-4 text-rose-600" />
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs overflow-hidden transition-colors">
+            <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-rose-50/50 dark:bg-rose-950/20">
+              <h2 className="text-sm font-bold text-rose-950 dark:text-rose-200 flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 text-rose-600 dark:text-rose-400" />
                 3. Potential Duplicate Records
               </h2>
-              <span className="text-xs font-mono font-bold text-rose-700">
+              <span className="text-xs font-mono font-bold text-rose-700 dark:text-rose-400">
                 {duplicateClusters.length} cases
               </span>
             </div>
@@ -291,18 +291,18 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
               {duplicateClusters.map((cluster) => (
                 <div
                   key={cluster.apaarId}
-                  className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5"
+                  className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs space-y-1.5"
                 >
-                  <div className="flex items-center justify-between font-mono font-bold text-slate-900">
+                  <div className="flex items-center justify-between font-mono font-bold text-slate-900 dark:text-slate-100">
                     <span>{cluster.apaarId}</span>
-                    <span className="text-[10px] text-rose-600 font-sans font-semibold">
+                    <span className="text-[10px] text-rose-600 dark:text-rose-400 font-sans font-semibold">
                       DUAL ENROLMENT
                     </span>
                   </div>
-                  <div className="font-semibold text-slate-800">
+                  <div className="font-semibold text-slate-800 dark:text-slate-200">
                     {cluster.studentName}
                   </div>
-                  <div className="text-[11px] text-slate-500">
+                  <div className="text-[11px] text-slate-500 dark:text-slate-400">
                     Institutions: {cluster.institutions.join(' & ')}
                   </div>
                 </div>
@@ -311,13 +311,13 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
           </div>
 
           {/* Excess Admission Cases Table */}
-          <div className="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
-            <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-amber-50/50">
-              <h2 className="text-sm font-bold text-amber-950 flex items-center gap-2">
-                <AlertTriangle className="w-4 h-4 text-amber-600" />
+          <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/90 dark:border-slate-800 shadow-2xs overflow-hidden transition-colors">
+            <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-amber-50/50 dark:bg-amber-950/20">
+              <h2 className="text-sm font-bold text-amber-950 dark:text-amber-200 flex items-center gap-2">
+                <AlertTriangle className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                 4. Excess Admission Audit
               </h2>
-              <span className="text-xs font-mono font-bold text-amber-700">
+              <span className="text-xs font-mono font-bold text-amber-700 dark:text-amber-400">
                 {excessInstitutions.length} breaches
               </span>
             </div>
@@ -325,20 +325,20 @@ export const ReportsView: React.FC<ReportsViewProps> = ({
               {excessInstitutions.map((i) => (
                 <div
                   key={i.institution.id}
-                  className="p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-1.5"
+                  className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 text-xs space-y-1.5"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-slate-900">
+                    <span className="font-bold text-slate-900 dark:text-slate-100">
                       {i.institution.name}
                     </span>
-                    <span className="text-[10px] text-amber-800 font-bold bg-amber-100 px-1.5 py-0.5 rounded">
+                    <span className="text-[10px] text-amber-800 dark:text-amber-300 font-bold bg-amber-100 dark:bg-amber-950/60 px-1.5 py-0.5 rounded border border-amber-200 dark:border-amber-900/40">
                       +{i.excessAdmissions} EXCESS
                     </span>
                   </div>
-                  <div className="text-[11px] text-slate-600">
+                  <div className="text-[11px] text-slate-600 dark:text-slate-400">
                     Approved: {i.approvedIntake} | Actual Enrolled: {i.actualEnrolment}
                   </div>
-                  <div className="text-[10px] text-amber-700">
+                  <div className="text-[10px] text-amber-700 dark:text-amber-400">
                     Action: Issued AICTE intake clarification directive.
                   </div>
                 </div>
